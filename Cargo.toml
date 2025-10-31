@@ -1,6 +1,6 @@
 [package]
 name = "rat_embed_lang"
-version = "0.1.0"
+version = "0.1.1"
 edition = "2024"
 authors = ["0ldm0s <oldmos@gmail.com>"]
 description = "A simple embedded internationalization framework for Rust with compile-time embedding and runtime language switching"
