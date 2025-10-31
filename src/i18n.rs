@@ -25,9 +25,39 @@ pub fn current_language() -> String {
 
 /// 注册翻译数据
 /// translations: HashMap<key, HashMap<language_code, translation_text>>
+/// 如果有重复的key会panic并提示错误信息
 pub fn register_translations(translations: HashMap<String, HashMap<String, String>>) {
     let mut global_translations = TRANSLATIONS.write().unwrap();
-    *global_translations = translations;
+
+    // 检查是否有重复的key
+    let mut duplicate_keys = Vec::new();
+    for key in translations.keys() {
+        if global_translations.contains_key(key) {
+            duplicate_keys.push(key.clone());
+        }
+    }
+
+    // 如果有重复key，报错
+    if !duplicate_keys.is_empty() {
+        let current_lang = CURRENT_LANGUAGE.read().unwrap();
+        let error_msg = if current_lang.starts_with("zh") {
+            format!("翻译key重复: {}. 请检查或先调用clear_translations()清理现有翻译数据。", duplicate_keys.join(", "))
+        } else {
+            format!("Duplicate translation keys: {}. Please check or call clear_translations() to clear existing data.", duplicate_keys.join(", "))
+        };
+        panic!("{}", error_msg);
+    }
+
+    // 添加新翻译
+    for (key, lang_map) in translations {
+        global_translations.insert(key, lang_map);
+    }
+}
+
+/// 清理所有已注册的翻译数据
+pub fn clear_translations() {
+    let mut global_translations = TRANSLATIONS.write().unwrap();
+    global_translations.clear();
 }
 
 /// 获取翻译文本
