@@ -29,5 +29,6 @@ pub mod i18n;
 pub use language::{normalize_language_code, get_language_from_env};
 pub use i18n::{
     set_language, current_language, register_translations, clear_translations, t, t_with_lang,
+    tf, tf_with_lang,
     has_translation, has_translation_for_lang, get_all_keys, get_supported_languages
 };

@@ -131,3 +131,57 @@ pub fn get_supported_languages(key: &str) -> Vec<String> {
         Vec::new()
     }
 }
+
+/// 获取参数化翻译文本
+/// 支持用 {参数名} 格式的参数替换
+pub fn tf(key: &str, args: &[(&str, &str)]) -> String {
+    let template = t(key);
+    let mut result = template;
+
+    for (param_name, param_value) in args {
+        let placeholder = format!("{{{}}}", param_name);
+        result = result.replace(&placeholder, param_value);
+    }
+
+    result
+}
+
+/// 获取指定语言的参数化翻译文本
+/// 支持用 {参数名} 格式的参数替换
+pub fn tf_with_lang(key: &str, lang: &str, args: &[(&str, &str)]) -> String {
+    let template = t_with_lang(key, lang);
+    let mut result = template;
+
+    for (param_name, param_value) in args {
+        let placeholder = format!("{{{}}}", param_name);
+        result = result.replace(&placeholder, param_value);
+    }
+
+    result
+}
+
+/// 便捷宏：获取参数化翻译文本
+#[macro_export]
+macro_rules! tfm {
+    ($key:expr, $($param:ident = $value:expr),* $(,)?) => {
+        $crate::tf($key, &[$(($crate::__stringify!($param), $crate::__to_string!($value))),*])
+    };
+}
+
+/// 辅助宏：将标识符转换为字符串
+#[doc(hidden)]
+#[macro_export]
+macro_rules! __stringify {
+    ($x:expr) => {
+        stringify!($x)
+    };
+}
+
+/// 辅助宏：将值转换为字符串
+#[doc(hidden)]
+#[macro_export]
+macro_rules! __to_string {
+    ($x:expr) => {
+        &$x.to_string()
+    };
+}

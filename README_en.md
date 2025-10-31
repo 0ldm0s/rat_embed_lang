@@ -23,31 +23,16 @@ rat_embed_lang = "0.1.0"
 
 ### 2. Basic Usage
 
-```rust
-use std::collections::HashMap;
-use rat_embed_lang::{set_language, register_translations, t, get_language_from_env};
+For detailed usage examples, see the `examples/` directory:
 
-fn main() {
-    // Prepare translation data
-    let mut translations = HashMap::new();
+- `basic_usage.rs` - Basic multilingual usage
+- `duplicate_key_test.rs` - Duplicate key detection and error handling
+- `parameterized_translation.rs` - Parameterized translation and dynamic text replacement
 
-    // Add multilingual translations for "hello"
-    let mut hello_translations = HashMap::new();
-    hello_translations.insert("zh-CN".to_string(), "你好".to_string());
-    hello_translations.insert("en-US".to_string(), "Hello".to_string());
-    hello_translations.insert("ja-JP".to_string(), "こんにちは".to_string());
-    translations.insert("hello".to_string(), hello_translations);
-
-    // Register translation data
-    register_translations(translations);
-
-    // Auto-detect system language or set manually
-    let system_lang = get_language_from_env();
-    set_language(&system_lang);
-
-    // Use translations
-    println!("{}", t("hello")); // Displays corresponding translation based on current language
-}
+Run examples:
+```bash
+cargo run --example basic_usage
+cargo run --example parameterized_translation
 ```
 
 ## API Documentation
@@ -59,6 +44,7 @@ fn main() {
 | `register_translations(translations)` | Register translation data |
 | `set_language(lang)` | Set current language |
 | `t(key)` | Get translation text in current language |
+| `tf(key, args)` | Get parameterized translation text |
 
 ### Helper APIs
 
@@ -67,6 +53,7 @@ fn main() {
 | `current_language()` | Get current language |
 | `clear_translations()` | Clear all registered translations |
 | `t_with_lang(key, lang)` | Get translation in specified language |
+| `tf_with_lang(key, lang, args)` | Get parameterized translation in specified language |
 | `has_translation(key)` | Check if translation exists |
 | `get_all_keys()` | Get all translation keys |
 

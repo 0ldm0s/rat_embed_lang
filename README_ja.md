@@ -23,31 +23,16 @@ rat_embed_lang = "0.1.0"
 
 ### 2. 基本的な使い方
 
-```rust
-use std::collections::HashMap;
-use rat_embed_lang::{set_language, register_translations, t, get_language_from_env};
+詳細な使用例は `examples/` ディレクトリを参照：
 
-fn main() {
-    // 翻訳データを準備
-    let mut translations = HashMap::new();
+- `basic_usage.rs` - 基本的な多言語使用
+- `duplicate_key_test.rs` - 重複キー検出とエラー処理
+- `parameterized_translation.rs` - パラメータ化翻訳と動的テキスト置換
 
-    // "hello"の多言語翻訳を追加
-    let mut hello_translations = HashMap::new();
-    hello_translations.insert("zh-CN".to_string(), "你好".to_string());
-    hello_translations.insert("en-US".to_string(), "Hello".to_string());
-    hello_translations.insert("ja-JP".to_string(), "こんにちは".to_string());
-    translations.insert("hello".to_string(), hello_translations);
-
-    // 翻訳データを登録
-    register_translations(translations);
-
-    // システム言語を自動検出または手動設定
-    let system_lang = get_language_from_env();
-    set_language(&system_lang);
-
-    // 翻訳を使用
-    println!("{}", t("hello")); // 現在の言語に基づいて対応する翻訳を表示
-}
+サンプル実行：
+```bash
+cargo run --example basic_usage
+cargo run --example parameterized_translation
 ```
 
 ## APIドキュメント
@@ -59,6 +44,7 @@ fn main() {
 | `register_translations(translations)` | 翻訳データを登録 |
 | `set_language(lang)` | 現在の言語を設定 |
 | `t(key)` | 現在の言語で翻訳テキストを取得 |
+| `tf(key, args)` | パラメータ化翻訳テキストを取得 |
 
 ### ヘルパーAPI
 
@@ -67,6 +53,7 @@ fn main() {
 | `current_language()` | 現在の言語を取得 |
 | `clear_translations()` | 登録済みのすべての翻訳をクリア |
 | `t_with_lang(key, lang)` | 指定された言語で翻訳を取得 |
+| `tf_with_lang(key, lang, args)` | 指定言語のパラメータ化翻訳を取得 |
 | `has_translation(key)` | 翻訳が存在するかチェック |
 | `get_all_keys()` | すべての翻訳キーを取得 |
 
