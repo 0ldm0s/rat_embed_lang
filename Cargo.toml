@@ -2,5 +2,17 @@
 name = "rat_embed_lang"
 version = "0.1.0"
 edition = "2024"
+authors = ["0ldm0s <oldmos@gmail.com>"]
+description = "A simple embedded internationalization framework for Rust with compile-time embedding and runtime language switching"
+license = "LGPL-3.0"
+repository = "https://github.com/0ldm0s/rat_embed_lang"
+homepage = "https://github.com/0ldm0s/rat_embed_lang"
+documentation = "https://github.com/0ldm0s/rat_embed_lang#readme"
+keywords = ["i18n", "internationalization", "localization", "embed", "multilingual"]
+categories = ["internationalization", "localization", "development-tools"]
+readme = "README.md"
+rust-version = "1.70"
 
 [dependencies]
+
+[dev-dependencies]
